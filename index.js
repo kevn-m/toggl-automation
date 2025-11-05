@@ -4,7 +4,7 @@ const dotenv = require("dotenv").config()
 const moment = require("moment")
 
 const workspaceId = 1442626
-const clientId = 16566277
+const projectId = 16566277
 
 const baseURL = "https://api.track.toggl.com/api/v9"
 const endpoint = `/workspaces/${workspaceId}/time_entries`
@@ -36,18 +36,18 @@ axios
   .post(
     `https://api.track.toggl.com/api/v9/workspaces/${workspaceId}/time_entries`,
     {
+      billable: false,
+      created_with: "my-app",
+      description: "Testing Toggl API",
+      project_id: projectId,
+      workspace_id: workspaceId,
+      start: moment.utc().startOf("day").add(9, "hours").format(),
+      duration: 28800, // 8 hours in seconds
+    },
+    {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Basic ${base64.encode(`${apiKey}:api_token`)}`,
-      },
-      body: {
-        billable: false,
-        created_with: "my-app",
-        description: "Testing Toggl API",
-        project_id: clientId,
-        workspace_id: workspaceId,
-        start: moment.utc().startOf("day").add(9, "hours").format(),
-        end: moment.utc().startOf("day").add(17, "hours").format(),
       },
     }
   )
